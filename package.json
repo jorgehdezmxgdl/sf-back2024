@@ -1,0 +1,33 @@
+{
+  "name": "fragancias_back",
+  "version": "1.0.0",
+  "description": "Microservicios para el administración de insumos cosméticos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JorgeFaustoHdezMXGDL/safiv3_back.git"
+  },
+  "keywords": [
+    "perfumes",
+    "crud",
+    "microservices",
+    "security"
+  ],
+  "author": "Jorge Fausto Hernandez",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "encryptly": "^1.0.0",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.9.4",
+    "nodemailer": "^6.9.13",
+    "nodemon": "^3.1.0",
+    "sequelize": "^6.37.2",
+    "sequelize-auto": "^0.8.8"
+  }
+}
