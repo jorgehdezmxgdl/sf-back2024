@@ -523,6 +523,10 @@ app.get("/estados-inegi", async (req, res) => {
     res.status(200).send(data);
 });
 
-app.listen(5784, () => {
+app.get('/', (req, res) => {
+  res.status(200).send('{"mensaje": "Servidor en línea..."}');
+});
+
+app.listen(80, () => {
   console.log("Servidor corriendo en el puerto 5784");
 });
