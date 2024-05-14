@@ -26,12 +26,12 @@ function initModels(sequelize) {
   empleado.hasMany(usuario, { as: "usuarios", foreignKey: "empleado_id"});
   submodulo.belongsTo(modulo, { as: "modulo_modulo", foreignKey: "modulo"});
   modulo.hasMany(submodulo, { as: "submodulos", foreignKey: "modulo"});
+  tcodmunicipio.belongsTo(tcodestado, { as: "estado", foreignKey: "estado_id"});
   tcodestado.hasMany(tcodmunicipio, { as: "tcodmunicipios", foreignKey: "estado_id"});
-  tcodestado.hasMany(tcodpostal, { as: "tcodpostales", foreignKey: "estado_id"});
-  tcodpostal.belongsTo(tcodestado, { as: "tcodestados", foreignKey: "estado_id"});
-  tcodpostal.belongsTo(tcodmunicipio, { as: "tcodmunicipios", foreignKey: "municipio_id"});
-  tcodmunicipio.belongsTo(tcodestado, { as: "tcodestados", foreignKey: "estado_id"});
-  tcodmunicipio.hasMany(tcodpostal, { as: "tcodpostales", foreignKey: "municipio_id"});
+  tcodpostal.belongsTo(tcodestado, { as: "estado", foreignKey: "estado_id"});
+  tcodestado.hasMany(tcodpostal, { as: "tcodpostals", foreignKey: "estado_id"});
+  tcodpostal.belongsTo(tcodmunicipio, { as: "municipio", foreignKey: "municipio_id"});
+  tcodmunicipio.hasMany(tcodpostal, { as: "tcodpostals", foreignKey: "municipio_id"});
 
   return {
     empleado,

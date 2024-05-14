@@ -7,11 +7,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    codigo_empleado: {
-      type: DataTypes.STRING(45),
-      allowNull: true,
-      unique: "codigo_empleado_UNIQUE"
-    },
     nombre: {
       type: DataTypes.STRING(150),
       allowNull: true
@@ -37,18 +32,23 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       unique: "curp_UNIQUE"
     },
+    numero_ss: {
+      type: DataTypes.STRING(11),
+      allowNull: true
+    },
     rfc: {
       type: DataTypes.STRING(13),
       allowNull: true,
       unique: "rfc_UNIQUE"
     },
     imagen: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING(600),
       allowNull: true
     },
     email: {
       type: DataTypes.STRING(150),
-      allowNull: true
+      allowNull: true,
+      unique: "email_UNIQUE"
     },
     telef_casa: {
       type: DataTypes.STRING(20),
@@ -112,11 +112,11 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "codigo_empleado_UNIQUE",
+        name: "email_UNIQUE",
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "codigo_empleado" },
+          { name: "email" },
         ]
       },
     ]

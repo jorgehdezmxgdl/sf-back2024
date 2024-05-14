@@ -2,7 +2,7 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize  = new Sequelize('safav3', 'root', '12345', {
-  host: 'localhost',
+  host: '127.0.0.1',
   dialect: 'mysql',  
   define: {
     timestamps: true,

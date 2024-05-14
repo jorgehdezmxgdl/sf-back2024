@@ -85,13 +85,13 @@ app.post("/login", function (req, res) {
 app.post("/empleados", async (req, res) => {
   const data = req.body;
   const {
-    codigo_empleado,
     nombre,
     apellido_paterno,
     apellido_materno,
     fecha_nacimiento,
     genero,
     curp,
+    numero_ss,
     rfc,
     imagen,
     email,
@@ -101,13 +101,28 @@ app.post("/empleados", async (req, res) => {
     telef_emergencia,
     estado_civil,
     tipo_sangre,
-    activo,
-    edicion,
+    domicilio,
+    observaciones,
+    codigo_postal,
+    estadosPais,
+    municipio,
+    colonia,
+    pais,
+    departamento,
+    puesto,
+    jefe,
+    salario,
+    nombre_usuario,
+    contrasena,
+    contrasena2,
+    tiempo_innactivo,
+    fecha_ingreso,
+    activo, 
+    edicion
   } = data;
   const models = initModels(sequelize);
-  await models.empleado
+  const newEmp = await models.empleado
     .create({
-      codigo_empleado,
       nombre,
       apellido_paterno,
       apellido_materno,
@@ -139,6 +154,10 @@ app.post("/empleados", async (req, res) => {
         res.status(500).send({ mensaje: error.message });
       }
     });
+    if (newEmp) {
+        const id = newEmp.id;
+        console.log(id);
+    }
 });
 
 app.get("/empleados", async (req, res) => {
@@ -151,14 +170,13 @@ app.get("/empleados", async (req, res) => {
 app.put("/empleados", async (req, res) => {
   const data = req.body;
   const {
-    id,
-    codigo_empleado,
     nombre,
     apellido_paterno,
     apellido_materno,
     fecha_nacimiento,
     genero,
     curp,
+    numero_ss,
     rfc,
     imagen,
     email,
@@ -168,14 +186,27 @@ app.put("/empleados", async (req, res) => {
     telef_emergencia,
     estado_civil,
     tipo_sangre,
-    activo,
-    edicion,
+    domicilio,
+    observaciones,
+    codigo_postal,
+    estadosPais,
+    municipio,
+    colonia,
+    pais,
+    departamento,
+    puesto,
+    jefe,
+    salario,
+    nombre_usuario,
+    contrasena,
+    contrasena2,
+    tiempo_innactivo,
+    fecha_ingreso,
   } = data;
   const models = initModels(sequelize);
   await models.empleado
     .update(
       {
-        codigo_empleado,
         nombre,
         apellido_paterno,
         apellido_materno,
