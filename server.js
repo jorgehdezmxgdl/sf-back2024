@@ -129,6 +129,7 @@ app.post("/empleados", async (req, res) => {
       fecha_nacimiento,
       genero,
       curp,
+      numero_ss,
       rfc,
       imagen,
       email,
@@ -148,16 +149,18 @@ app.post("/empleados", async (req, res) => {
       if (error.name === "SequelizeUniqueConstraintError") {
         console.error("Error de entrada duplicada:", error.message);
         res.status(500).send({
-          mensaje: "Error de CURP/RFC/Correo electrónico ya existente....",
+          mensaje: "Error de CURP/RFC/Correo electrónico/Usuario ya existente....",
         });
       } else {
         res.status(500).send({ mensaje: error.message });
       }
     });
-    if (newEmp) {
-        const id = newEmp.id;
-        console.log(id);
-    }
+  if (newEmp) {
+    const id = newEmp.id;
+    console.log(id);
+  } else {
+    console.log("no lo hizo!!!!");
+  }
 });
 
 app.get("/empleados", async (req, res) => {

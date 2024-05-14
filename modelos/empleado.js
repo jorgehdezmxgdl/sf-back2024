@@ -42,7 +42,7 @@ module.exports = function(sequelize, DataTypes) {
       unique: "rfc_UNIQUE"
     },
     imagen: {
-      type: DataTypes.STRING(600),
+      type: DataTypes.BLOB('long'),
       allowNull: true
     },
     email: {
