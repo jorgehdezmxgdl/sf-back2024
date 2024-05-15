@@ -82,6 +82,8 @@ app.post("/login", function (req, res) {
     });
 });
 
+
+
 app.post("/empleados", async (req, res) => {
   const data = req.body;
   const {
