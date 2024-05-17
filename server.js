@@ -119,8 +119,8 @@ app.post("/empleados", async (req, res) => {
     contrasena2,
     tiempo_innactivo,
     fecha_ingreso,
-    activo, 
-    edicion
+    activo,
+    edicion,
   } = data;
   const models = initModels(sequelize);
   const newEmp = await models.empleado
