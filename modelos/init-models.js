@@ -7,6 +7,10 @@ var _tcodmunicipio = require("./tcodmunicipio");
 var _tcodpostal = require("./tcodpostal");
 var _tcontrato = require("./tcontrato");
 var _tdepartamento = require("./tdepartamento");
+var _tdisenador = require("./tdisenador");
+var _tgenero = require("./tgenero");
+var _tml = require("./tml");
+var _tpaise = require("./tpaise");
 var _tpuesto = require("./tpuesto");
 var _usuario = require("./usuario");
 
@@ -19,6 +23,10 @@ function initModels(sequelize) {
   var tcodpostal = _tcodpostal(sequelize, DataTypes);
   var tcontrato = _tcontrato(sequelize, DataTypes);
   var tdepartamento = _tdepartamento(sequelize, DataTypes);
+  var tdisenador = _tdisenador(sequelize, DataTypes);
+  var tgenero = _tgenero(sequelize, DataTypes);
+  var tml = _tml(sequelize, DataTypes);
+  var tpaise = _tpaise(sequelize, DataTypes);
   var tpuesto = _tpuesto(sequelize, DataTypes);
   var usuario = _usuario(sequelize, DataTypes);
 
@@ -42,6 +50,10 @@ function initModels(sequelize) {
     tcodpostal,
     tcontrato,
     tdepartamento,
+    tdisenador,
+    tgenero,
+    tml,
+    tpaise,
     tpuesto,
     usuario,
   };

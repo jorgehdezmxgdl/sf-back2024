@@ -559,6 +559,43 @@ app.get("/estados-inegi", async (req, res) => {
     res.status(200).send(data);
 });
 
+app.get('/paises', async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tpaise.findAll(
+    {
+      attributes: ["id", "nombre"],
+      order: [["nombre", "ASC"]],
+    }
+  );
+  res.status(200).send(data);
+});
+
+
+app.get('/disenador', async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tdisenador.findAll(
+    {
+      attributes: ["id", "nombre"],
+      order: [["nombre", "ASC"]],
+    }
+  );
+  res.status(200).send(data);
+});
+
+
+app.get('/ml', async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tml.findAll(
+    {
+      attributes: ["id", "nombre"],
+      order: [["nombre", "ASC"]],
+    }
+  );
+  res.status(200).send(data);
+});
+
+
+
 app.get('/', (req, res) => {
   res.status(200).send('{"mensaje": "Servidor en línea..."}');
 });
