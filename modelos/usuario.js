@@ -24,6 +24,11 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     },
+    innactividad: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      defaultValue: 1
+    },
     activo: {
       type: DataTypes.TINYINT,
       allowNull: true

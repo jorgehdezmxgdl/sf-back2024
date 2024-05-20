@@ -261,13 +261,15 @@ app.delete("/empleados", async (req, res) => {
     });
 });
 
-app.get("/modulos", async (req, res) => {
+app.post("/empleados/usuario", async (req, res) => {
+  const data = req.body;
+  const { clave  } = data;
   const models = initModels(sequelize);
-  await models.modulo.findAll().then((result) => {
-    if (res) {
-      res.status(200).send(result);
+  await models.usuario.findOne({ where: { clave: clave } }).then((result) => {
+    if (result) {
+      res.status(200).send('{"mensaje": "la clave del usuario ya existe"}');
     } else {
-      res.status(500).send({ mensaje: error.message });
+      res.status(200).send('[]');
     }
   });
 });
