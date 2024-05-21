@@ -86,6 +86,9 @@ app.post("/login", function (req, res) {
 
 app.post("/empleados", async (req, res) => {
   const data = req.body;
+  
+  const toUpperCase = (str) => str.toUpperCase();
+
   const {
     nombre,
     apellido_paterno,
@@ -123,31 +126,36 @@ app.post("/empleados", async (req, res) => {
     edicion,
   } = data;
   const models = initModels(sequelize);
+  try{
   const newEmp = await models.empleado
     .create({
-      nombre,
-      apellido_paterno,
-      apellido_materno,
-      fecha_nacimiento,
-      genero,
-      curp,
-      numero_ss,
-      rfc,
-      imagen,
-      email,
-      telef_casa,
-      telef_mobile,
-      emergencia,
-      telef_emergencia,
-      estado_civil,
-      tipo_sangre,
-      activo,
-      edicion,
-    })
-    .then((result) => {
-      res.status(200).send({ mensaje: "Ok" });
-    })
-    .catch((error) => {
+        nombre: toUpperCase(nombre),
+        apellido_paterno: toUpperCase(apellido_paterno),
+        apellido_materno: toUpperCase(apellido_materno),
+        fecha_nacimiento,
+        genero: toUpperCase(genero),
+        curp: toUpperCase(curp),
+        numero_ss,
+        rfc: toUpperCase(rfc),
+        imagen,
+        email,
+        telef_casa,
+        telef_mobile,
+        emergencia: toUpperCase(emergencia),
+        telef_emergencia,
+        estado_civil: toUpperCase(estado_civil),
+        tipo_sangre: toUpperCase(tipo_sangre),
+        activo,
+        edicion,
+    });
+    res.status(200).send({ mensaje: "Ok" });
+    if (newEmp) {
+      const id = newEmp.id;
+      console.log(id);
+    } else {
+      console.log("no lo hizo!!!!");
+    }
+    }	catch(error)  {
       if (error.name === "SequelizeUniqueConstraintError") {
         console.error("Error de entrada duplicada:", error.message);
         res.status(500).send({
@@ -156,13 +164,7 @@ app.post("/empleados", async (req, res) => {
       } else {
         res.status(500).send({ mensaje: error.message });
       }
-    });
-  if (newEmp) {
-    const id = newEmp.id;
-    console.log(id);
-  } else {
-    console.log("no lo hizo!!!!");
-  }
+    }
 });
 
 app.get("/empleados", async (req, res) => {
@@ -174,6 +176,9 @@ app.get("/empleados", async (req, res) => {
 
 app.put("/empleados", async (req, res) => {
   const data = req.body;
+
+  const toUpperCase = (str) => str.toUpperCase();
+
   const {
     nombre,
     apellido_paterno,
