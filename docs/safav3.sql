@@ -11,7 +11,7 @@
  Target Server Version : 80300 (8.3.0)
  File Encoding         : 65001
 
- Date: 19/05/2024 22:46:23
+ Date: 20/05/2024 22:46:21
 */
 
 SET NAMES utf8mb4;
@@ -37,6 +37,7 @@ CREATE TABLE `empleados` (
   `telef_mobile` varchar(20) DEFAULT NULL,
   `emergencia` varchar(200) DEFAULT NULL,
   `telef_emergencia` varchar(20) DEFAULT NULL,
+  `comentarios_emergencia` varchar(255) DEFAULT NULL,
   `estado_civil` enum('S','C','D','V','U','O') DEFAULT NULL,
   `tipo_sangre` varchar(25) DEFAULT NULL,
   `activo` tinyint DEFAULT NULL,
@@ -47,7 +48,7 @@ CREATE TABLE `empleados` (
   UNIQUE KEY `curp_UNIQUE` (`curp`),
   UNIQUE KEY `rfc_UNIQUE` (`rfc`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Table structure for modulos
@@ -169,6 +170,53 @@ CREATE TABLE `tdisenador` (
 ) ENGINE=InnoDB AUTO_INCREMENT=382 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
+-- Table structure for tdomicilios
+-- ----------------------------
+DROP TABLE IF EXISTS `tdomicilios`;
+CREATE TABLE `tdomicilios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `empleado_id` int NOT NULL,
+  `domicilio` varchar(255) DEFAULT NULL,
+  `cp` varchar(5) DEFAULT NULL,
+  `colonia` int DEFAULT NULL,
+  `municipio` int DEFAULT NULL,
+  `estado` int DEFAULT NULL,
+  `pais` int DEFAULT NULL,
+  `activo` tinyint(1) DEFAULT '1',
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`,`empleado_id`),
+  KEY `domemp_fk` (`empleado_id`),
+  CONSTRAINT `domemp_fk` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Table structure for templeado_departamentos
+-- ----------------------------
+DROP TABLE IF EXISTS `templeado_departamentos`;
+CREATE TABLE `templeado_departamentos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `empleado_id` int NOT NULL,
+  `departamento_id` int NOT NULL,
+  `puesto_id` int NOT NULL,
+  `es_jefe` tinyint(1) DEFAULT '0',
+  `salario` float DEFAULT '0',
+  `fecha_ingreso` datetime DEFAULT NULL,
+  `fecha_renuncia` datetime DEFAULT NULL,
+  `observaciones` text,
+  `activo` tinyint(1) DEFAULT '1',
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updatedAt` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`,`departamento_id`,`empleado_id`,`puesto_id`) USING BTREE,
+  KEY `empl_fk` (`empleado_id`),
+  KEY `depar_fk` (`departamento_id`),
+  KEY `puesto_fk` (`puesto_id`),
+  CONSTRAINT `depar_fk` FOREIGN KEY (`departamento_id`) REFERENCES `tdepartamentos` (`id`),
+  CONSTRAINT `empl_fk` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`),
+  CONSTRAINT `puesto_fk` FOREIGN KEY (`puesto_id`) REFERENCES `tpuestos` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
 -- Table structure for tgeneros
 -- ----------------------------
 DROP TABLE IF EXISTS `tgeneros`;
@@ -238,6 +286,6 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `clave_UNIQUE` (`clave`),
   KEY `user_emplofk_idx` (`empleado_id`),
   CONSTRAINT `user_emplofk` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 SET FOREIGN_KEY_CHECKS = 1;

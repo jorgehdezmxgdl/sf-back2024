@@ -66,6 +66,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(20),
       allowNull: true
     },
+    comentarios_emergencia: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
     estado_civil: {
       type: DataTypes.ENUM('S','C','D','V','U','O'),
       allowNull: true

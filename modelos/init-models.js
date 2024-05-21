@@ -8,6 +8,8 @@ var _tcodpostal = require("./tcodpostal");
 var _tcontrato = require("./tcontrato");
 var _tdepartamento = require("./tdepartamento");
 var _tdisenador = require("./tdisenador");
+var _tdomicilio = require("./tdomicilio");
+var _templeado_departamento = require("./templeado_departamento");
 var _tgenero = require("./tgenero");
 var _tml = require("./tml");
 var _tpaise = require("./tpaise");
@@ -24,12 +26,18 @@ function initModels(sequelize) {
   var tcontrato = _tcontrato(sequelize, DataTypes);
   var tdepartamento = _tdepartamento(sequelize, DataTypes);
   var tdisenador = _tdisenador(sequelize, DataTypes);
+  var tdomicilio = _tdomicilio(sequelize, DataTypes);
+  var templeado_departamento = _templeado_departamento(sequelize, DataTypes);
   var tgenero = _tgenero(sequelize, DataTypes);
   var tml = _tml(sequelize, DataTypes);
   var tpaise = _tpaise(sequelize, DataTypes);
   var tpuesto = _tpuesto(sequelize, DataTypes);
   var usuario = _usuario(sequelize, DataTypes);
 
+  tdomicilio.belongsTo(empleado, { as: "empleado", foreignKey: "empleado_id"});
+  empleado.hasMany(tdomicilio, { as: "tdomicilios", foreignKey: "empleado_id"});
+  templeado_departamento.belongsTo(empleado, { as: "empleado", foreignKey: "empleado_id"});
+  empleado.hasMany(templeado_departamento, { as: "templeado_departamentos", foreignKey: "empleado_id"});
   usuario.belongsTo(empleado, { as: "empleado", foreignKey: "empleado_id"});
   empleado.hasMany(usuario, { as: "usuarios", foreignKey: "empleado_id"});
   submodulo.belongsTo(modulo, { as: "modulo_modulo", foreignKey: "modulo"});
@@ -40,6 +48,10 @@ function initModels(sequelize) {
   tcodestado.hasMany(tcodpostal, { as: "tcodpostals", foreignKey: "estado_id"});
   tcodpostal.belongsTo(tcodmunicipio, { as: "tcodmunicipios", foreignKey: "municipio_id"});
   tcodmunicipio.hasMany(tcodpostal, { as: "tcodpostals", foreignKey: "municipio_id"});
+  templeado_departamento.belongsTo(tdepartamento, { as: "departamento", foreignKey: "departamento_id"});
+  tdepartamento.hasMany(templeado_departamento, { as: "templeado_departamentos", foreignKey: "departamento_id"});
+  templeado_departamento.belongsTo(tpuesto, { as: "puesto", foreignKey: "puesto_id"});
+  tpuesto.hasMany(templeado_departamento, { as: "templeado_departamentos", foreignKey: "puesto_id"});
 
   return {
     empleado,
@@ -51,6 +63,8 @@ function initModels(sequelize) {
     tcontrato,
     tdepartamento,
     tdisenador,
+    tdomicilio,
+    templeado_departamento,
     tgenero,
     tml,
     tpaise,

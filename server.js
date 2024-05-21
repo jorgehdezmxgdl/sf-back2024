@@ -122,8 +122,6 @@ app.post("/empleados", async (req, res) => {
     contrasena2,
     tiempo_innactivo,
     fecha_ingreso,
-    activo,
-    edicion,
   } = data;
   const models = initModels(sequelize);
   try{
@@ -143,21 +141,47 @@ app.post("/empleados", async (req, res) => {
         telef_mobile,
         emergencia: toUpperCase(emergencia),
         telef_emergencia,
+        comentarios_emergencia: observaciones,
         estado_civil: toUpperCase(estado_civil),
         tipo_sangre: toUpperCase(tipo_sangre),
-        activo,
-        edicion,
+        activo : true,
+        edicion : true,
     });
-    res.status(200).send({ mensaje: "Ok" });
     if (newEmp) {
       const id = newEmp.id;
-      console.log(id);
+      await models.usuario.create({
+        clave: nombre_usuario,
+        passwd: contrasena,
+        empleado_id: id,
+        fecha_ingreso,
+        innactividad : tiempo_innactivo,
+        activo: true
+      });
+      await models.templeado_departamento.create({
+        empleado_id: id,
+        departamento_id: departamento,
+        puesto_id: puesto,
+        es_jefe: jefe,
+        salario,
+        fecha_ingreso,
+        activo : true
+      });
+      await models.tdomicilio.create({
+        empleado_id: id,
+        domicilio,
+        cp: codigo_postal,
+        estado_id: estadosPais,
+        municipio_id: municipio,
+        colonia,
+        pais,
+        activo : true
+      });
+      res.status(200).send({ mensaje: "Ok" });
     } else {
       console.log("no lo hizo!!!!");
     }
     }	catch(error)  {
       if (error.name === "SequelizeUniqueConstraintError") {
-        console.error("Error de entrada duplicada:", error.message);
         res.status(500).send({
           mensaje: "Error de CURP/RFC/Correo electrónico/Usuario ya existente....",
         });
