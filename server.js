@@ -86,9 +86,8 @@ app.post("/login", function (req, res) {
 
 app.post("/empleados", async (req, res) => {
   const data = req.body;
-  
   const toUpperCase = (str) => str.toUpperCase();
-
+  let mpais = 0;
   const {
     nombre,
     apellido_paterno,
@@ -125,6 +124,7 @@ app.post("/empleados", async (req, res) => {
   } = data;
   const models = initModels(sequelize);
   try{
+  const imageBuffer = Buffer.from(imagen.split(',')[1], 'base64');
   const newEmp = await models.empleado
     .create({
         nombre: toUpperCase(nombre),
@@ -135,7 +135,7 @@ app.post("/empleados", async (req, res) => {
         curp: toUpperCase(curp),
         numero_ss,
         rfc: toUpperCase(rfc),
-        imagen,
+        imagen : imageBuffer,
         email,
         telef_casa,
         telef_mobile,
@@ -166,14 +166,17 @@ app.post("/empleados", async (req, res) => {
         fecha_ingreso,
         activo : true
       });
+      if (pais === "MX")  {
+        mpais = 120;
+      }
       await models.tdomicilio.create({
         empleado_id: id,
         domicilio,
         cp: codigo_postal,
-        estado_id: estadosPais,
-        municipio_id: municipio,
+        estado: estadosPais,
+        municipio,
         colonia,
-        pais,
+        pais : mpais,
         activo : true
       });
       res.status(200).send({ mensaje: "Ok" });
@@ -191,9 +194,15 @@ app.post("/empleados", async (req, res) => {
     }
 });
 
+app.get('/empleados', async (req, res) => {
+  const employeeId = req.query.id;
+  console.log(employeeId);
+});
+
 app.get("/empleados", async (req, res) => {
   const models = initModels(sequelize);
-  await models.empleado.findAll({ where: { activo: true } }).then((result) => {
+  await models.empleado.findAll({ where: { activo: true } , order: [['id', 'DESC']]}
+  ).then((result) => {
     res.status(200).send(result);
   });
 });
