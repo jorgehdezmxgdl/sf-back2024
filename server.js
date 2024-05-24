@@ -197,6 +197,29 @@ app.post("/empleados", async (req, res) => {
 app.get('/empleados', async (req, res) => {
   const employeeId = req.query.id;
   console.log(employeeId);
+  const models = initModels(sequelize);
+  if (employeeId) {
+    await models.empleado.findOne({
+    where: { id: employeeId },
+    include: [
+      {
+        model: models.usuario,
+        as: 'usuarios',
+        required: true
+      },
+      {
+        model: models.tdomicilio,
+        as: 'tdomicilios',
+        required: true
+      }
+    ]}).then((result) => {
+        res.status(200).send(result);
+    })
+    .catch((error) => {
+        res.status(500).send({ mensaje: error.message });
+    });
+  }  
+
 });
 
 app.get("/empleados", async (req, res) => {
