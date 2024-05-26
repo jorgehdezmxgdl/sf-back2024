@@ -82,8 +82,6 @@ app.post("/login", function (req, res) {
     });
 });
 
-
-
 app.post("/empleados", async (req, res) => {
   const data = req.body;
   const toUpperCase = (str) => str.toUpperCase();
@@ -123,29 +121,28 @@ app.post("/empleados", async (req, res) => {
     fecha_ingreso,
   } = data;
   const models = initModels(sequelize);
-  try{
-  const imageBuffer = Buffer.from(imagen.split(',')[1], 'base64');
-  const newEmp = await models.empleado
-    .create({
-        nombre: toUpperCase(nombre),
-        apellido_paterno: toUpperCase(apellido_paterno),
-        apellido_materno: toUpperCase(apellido_materno),
-        fecha_nacimiento,
-        genero: toUpperCase(genero),
-        curp: toUpperCase(curp),
-        numero_ss,
-        rfc: toUpperCase(rfc),
-        imagen : imageBuffer,
-        email,
-        telef_casa,
-        telef_mobile,
-        emergencia: toUpperCase(emergencia),
-        telef_emergencia,
-        comentarios_emergencia: observaciones,
-        estado_civil: toUpperCase(estado_civil),
-        tipo_sangre: toUpperCase(tipo_sangre),
-        activo : true,
-        edicion : true,
+  try {
+    const imageBuffer = Buffer.from(imagen.split(",")[1], "base64");
+    const newEmp = await models.empleado.create({
+      nombre: toUpperCase(nombre),
+      apellido_paterno: toUpperCase(apellido_paterno),
+      apellido_materno: toUpperCase(apellido_materno),
+      fecha_nacimiento,
+      genero: toUpperCase(genero),
+      curp: toUpperCase(curp),
+      numero_ss,
+      rfc: toUpperCase(rfc),
+      imagen: imageBuffer,
+      email,
+      telef_casa,
+      telef_mobile,
+      emergencia: toUpperCase(emergencia),
+      telef_emergencia,
+      comentarios_emergencia: observaciones,
+      estado_civil: toUpperCase(estado_civil),
+      tipo_sangre: toUpperCase(tipo_sangre),
+      activo: true,
+      edicion: true,
     });
     if (newEmp) {
       const id = newEmp.id;
@@ -154,8 +151,8 @@ app.post("/empleados", async (req, res) => {
         passwd: contrasena,
         empleado_id: id,
         fecha_ingreso,
-        innactividad : tiempo_innactivo,
-        activo: true
+        innactividad: tiempo_innactivo,
+        activo: true,
       });
       await models.templeado_departamento.create({
         empleado_id: id,
@@ -164,9 +161,9 @@ app.post("/empleados", async (req, res) => {
         es_jefe: jefe,
         salario,
         fecha_ingreso,
-        activo : true
+        activo: true,
       });
-      if (pais === "MX")  {
+      if (pais === "MX") {
         mpais = 120;
       }
       await models.tdomicilio.create({
@@ -176,58 +173,61 @@ app.post("/empleados", async (req, res) => {
         estado: estadosPais,
         municipio,
         colonia,
-        pais : mpais,
-        activo : true
+        pais: mpais,
+        activo: true,
       });
       res.status(200).send({ mensaje: "Ok" });
     } else {
       console.log("no lo hizo!!!!");
     }
-    }	catch(error)  {
-      if (error.name === "SequelizeUniqueConstraintError") {
-        res.status(500).send({
-          mensaje: "Error de CURP/RFC/Correo electrónico/Usuario ya existente....",
-        });
-      } else {
-        res.status(500).send({ mensaje: error.message });
-      }
+  } catch (error) {
+    if (error.name === "SequelizeUniqueConstraintError") {
+      res.status(500).send({
+        mensaje:
+          "Error de CURP/RFC/Correo electrónico/Usuario ya existente....",
+      });
+    } else {
+      res.status(500).send({ mensaje: error.message });
     }
+  }
 });
 
-app.get('/empleados', async (req, res) => {
+app.get("/empleados/busca", async (req, res) => {
   const employeeId = req.query.id;
-  console.log(employeeId);
   const models = initModels(sequelize);
   if (employeeId) {
-    await models.empleado.findOne({
-    where: { id: employeeId },
-    include: [
-      {
-        model: models.usuario,
-        as: 'usuarios',
-        required: true
-      },
-      {
-        model: models.tdomicilio,
-        as: 'tdomicilios',
-        required: true
-      }
-    ]}).then((result) => {
+    await models.empleado
+      .findOne({
+        where: { id: employeeId },
+        include: [
+          {
+            model: models.usuario,
+            as: "usuarios",
+            required: true,
+          },
+          {
+            model: models.tdomicilio,
+            as: "tdomicilios",
+            required: true,
+          },
+        ],
+      })
+      .then((result) => {
         res.status(200).send(result);
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         res.status(500).send({ mensaje: error.message });
-    });
-  }  
-
+      });
+  }
 });
 
 app.get("/empleados", async (req, res) => {
   const models = initModels(sequelize);
-  await models.empleado.findAll({ where: { activo: true } , order: [['id', 'DESC']]}
-  ).then((result) => {
-    res.status(200).send(result);
-  });
+  await models.empleado
+    .findAll({ where: { activo: true }, order: [["id", "DESC"]] })
+    .then((result) => {
+      res.status(200).send(result);
+    });
 });
 
 app.put("/empleados", async (req, res) => {
@@ -324,21 +324,73 @@ app.delete("/empleados", async (req, res) => {
 
 app.post("/empleados/usuario", async (req, res) => {
   const data = req.body;
-  const { clave  } = data;
+  const { clave } = data;
   const models = initModels(sequelize);
   await models.usuario.findOne({ where: { clave: clave } }).then((result) => {
     if (result) {
       res.status(200).send('{"mensaje": "la clave del usuario ya existe"}');
     } else {
-      res.status(200).send('[]');
+      res.status(200).send("[]");
     }
   });
+});
+
+app.post("/v1/proveedores", async (req, res) => {
+  const data = req.body;
+  const {
+    empresa,
+    rfc,
+    fiscal_id,
+    curp,
+    domicilio,
+    interior,
+    exterior,
+    cp,
+    colonia_id,
+    municipio_id,
+    estado_id,
+    pais_id,
+    clasificacion_id,
+    tipo_id,
+    activo,
+  } = data;
+  const models = initModels(sequelize);
+  await models.tproveedore
+    .create({
+      empresa,
+      rfc,
+      fiscal_id,
+      curp,
+      domicilio,
+      interior,
+      exterior,
+      cp,
+      colonia_id,
+      municipio_id,
+      estado_id,
+      pais_id,
+      clasificacion_id,
+      tipo_id,
+      activo,
+    })
+    .then((result) => {
+      res.status(200).send({ mensaje: "Ok" });
+    })
+    .catch((error) => {
+      if (error.name === "SequelizeUniqueConstraintError") {
+        console.error("Error de entrada duplicada:", error.message);
+        res.status(500).send({
+          mensaje: "Error de RFC/Correo electrónico ya existente....",
+        });
+      } else {
+        res.status(500).send({ mensaje: error.message });
+      }
+    });
 });
 
 app.post("/modulos", async (req, res) => {
   const data = req.body;
   const { nombre, activo } = data;
-  console.log(data);
   const models = initModels(sequelize);
   await models.modulo
     .create({
@@ -554,13 +606,12 @@ app.post("/cp", (req, res) => {
   const models = initModels(sequelize);
   models.tcodpostal
     .findAll({
-      attributes: [[sequelize.fn('DISTINCT', sequelize.col('cp')), 'cp']],
+      attributes: [[sequelize.fn("DISTINCT", sequelize.col("cp")), "cp"]],
       where: { cp: { [Op.startsWith]: mcp } },
       order: [["cp", "ASC"]],
     })
     .then((user) => {
       if (user) {
-
         res.status(200).send(user);
       } else {
         res.status(204).send('{"mensaje": "CP no encontrado!"}');
@@ -576,32 +627,34 @@ app.post("/cp-plus", (req, res) => {
   const { mcp } = data;
   const models = initModels(sequelize);
 
-  models.tcodpostal.findAll({
-    attributes: ['id', 'cp', 'colonia'],
-    where: {
-      cp: mcp
-    },
-    include: [
-      {
-        model: models.tcodmunicipio,
-        as: 'tcodmunicipios',
-        attributes: ['id', 'municipio'],
-        where: {
-          estado_id: { [Op.col]: 'tcodpostal.estado_id' } // Comparar campo de otra tabla
-        }
+  models.tcodpostal
+    .findAll({
+      attributes: ["id", "cp", "colonia"],
+      where: {
+        cp: mcp,
       },
-      {
-        model: models.tcodestado,
-        as: 'tcodestados',
-        attributes: ['id', 'estado']
-      }
-    ],
-    order: [
-      ['colonia', 'ASC'],
-      [sequelize.col('tcodmunicipios.municipio'), 'ASC']
-    ], 
-    distinct: true
-  }).then((data) => {
+      include: [
+        {
+          model: models.tcodmunicipio,
+          as: "tcodmunicipios",
+          attributes: ["id", "municipio"],
+          where: {
+            estado_id: { [Op.col]: "tcodpostal.estado_id" }, // Comparar campo de otra tabla
+          },
+        },
+        {
+          model: models.tcodestado,
+          as: "tcodestados",
+          attributes: ["id", "estado"],
+        },
+      ],
+      order: [
+        ["colonia", "ASC"],
+        [sequelize.col("tcodmunicipios.municipio"), "ASC"],
+      ],
+      distinct: true,
+    })
+    .then((data) => {
       if (data) {
         res.status(200).send(data);
       } else {
@@ -614,52 +667,42 @@ app.post("/cp-plus", (req, res) => {
 });
 
 app.get("/estados-inegi", async (req, res) => {
-    const models = initModels(sequelize);
-    const data = await models.tcodestado.findAll({
-        attributes: ["id", "estado"],
-        orderBy: "estado",
-    });
-    res.status(200).send(data);
-});
-
-app.get('/paises', async (req, res) => {
   const models = initModels(sequelize);
-  const data = await models.tpaise.findAll(
-    {
-      attributes: ["id", "nombre"],
-      order: [["nombre", "ASC"]],
-    }
-  );
+  const data = await models.tcodestado.findAll({
+    attributes: ["id", "estado"],
+    orderBy: "estado",
+  });
   res.status(200).send(data);
 });
 
-
-app.get('/disenador', async (req, res) => {
+app.get("/paises", async (req, res) => {
   const models = initModels(sequelize);
-  const data = await models.tdisenador.findAll(
-    {
-      attributes: ["id", "nombre"],
-      order: [["nombre", "ASC"]],
-    }
-  );
+  const data = await models.tpaise.findAll({
+    attributes: ["id", "nombre"],
+    order: [["nombre", "ASC"]],
+  });
   res.status(200).send(data);
 });
 
-
-app.get('/ml', async (req, res) => {
+app.get("/disenador", async (req, res) => {
   const models = initModels(sequelize);
-  const data = await models.tml.findAll(
-    {
-      attributes: ["id", "nombre"],
-      order: [["nombre", "ASC"]],
-    }
-  );
+  const data = await models.tdisenador.findAll({
+    attributes: ["id", "nombre"],
+    order: [["nombre", "ASC"]],
+  });
   res.status(200).send(data);
 });
 
+app.get("/ml", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tml.findAll({
+    attributes: ["id", "nombre"],
+    order: [["nombre", "ASC"]],
+  });
+  res.status(200).send(data);
+});
 
-
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).send('{"mensaje": "Servidor en línea..."}');
 });
 
