@@ -351,11 +351,15 @@ app.post("/v1/proveedores", async (req, res) => {
     estado_id,
     pais_id,
     clasificacion_id,
+    nombre_contacto,
+    telefono,
+    email,
     tipo_id,
     activo,
   } = data;
   const models = initModels(sequelize);
-  await models.tproveedore
+  try {
+  const proveedor = await models.tproveedore
     .create({
       empresa,
       rfc,
@@ -371,12 +375,25 @@ app.post("/v1/proveedores", async (req, res) => {
       pais_id,
       clasificacion_id,
       tipo_id,
-      activo,
-    })
-    .then((result) => {
-      res.status(200).send({ mensaje: "Ok" });
-    })
-    .catch((error) => {
+      nombre_contacto,
+      telefono,
+      activo
+    });
+    if (proveedor) {
+      await models.templeado_departamento.create({
+        proveedor_id: proveedor.id,
+        nombre_contacto,
+        telefono,
+        email,
+        activo: true,
+
+      }).then((result) => {
+        res.status(200).send({ mensaje: "Ok" });
+      }).catch((error) => {
+        res.status(500).send({ mensaje: error.message });
+      }); 
+    }
+    } catch(error)  {
       if (error.name === "SequelizeUniqueConstraintError") {
         console.error("Error de entrada duplicada:", error.message);
         res.status(500).send({
@@ -385,7 +402,7 @@ app.post("/v1/proveedores", async (req, res) => {
       } else {
         res.status(500).send({ mensaje: error.message });
       }
-    });
+    };
 });
 
 app.post("/modulos", async (req, res) => {
