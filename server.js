@@ -719,6 +719,15 @@ app.get("/ml", async (req, res) => {
   res.status(200).send(data);
 });
 
+app.get("/v1/recomendacion", async (req, res) => {
+  await sequelize.query('CALL elimina_compra()');
+  await sequelize.query('CALL crea_proveedor(400)');
+  await sequelize.query('CALL crear_compras(180)');
+  await sequelize.query('CALL recomendacion()');
+  const [results, metadata] = await sequelize.query('SELECT tcr.id, tc.proveedor_id Proveedor, tp.empresa, tcr.folio, tcr.total_venta, tcr.total_compra, tcr.ganancia, tcr.porcentaje_utilidad, tce.fecha_pedido, tce.fecha_estimadaentrega, tce.fecha_entrega, tce.cumplimiento, tce.completo FROM tcompras_recomendacion tcr inner join tcompras_embarques tce on tcr.folio = tce.folio inner join tcompras tc on tc.folio =  tcr.folio inner join tproveedores tp on tc.proveedor_id = tp.id order by tce.completo desc, tce.cumplimiento, tcr.porcentaje_utilidad desc');
+  res.status(200).send(results);
+});
+
 app.get("/", (req, res) => {
   res.status(200).send('{"mensaje": "Servidor en línea..."}');
 });
