@@ -710,6 +710,19 @@ app.get("/disenador", async (req, res) => {
   res.status(200).send(data);
 });
 
+
+app.get("/disenador2", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tdisenador.findAll({
+    attributes: [
+      ["id", "value"], // Asignar alias a "id"
+      ["nombre", "label"] // Asignar alias a "nombre"
+    ],
+    order: [["nombre", "ASC"]],
+  });
+  res.status(200).send(data);
+});
+
 app.get("/ml", async (req, res) => {
   const models = initModels(sequelize);
   const data = await models.tml.findAll({
