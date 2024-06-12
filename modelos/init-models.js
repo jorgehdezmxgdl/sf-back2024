@@ -5,6 +5,8 @@ var _submodulo = require("./submodulo");
 var _tcodestado = require("./tcodestado");
 var _tcodmunicipio = require("./tcodmunicipio");
 var _tcodpostal = require("./tcodpostal");
+var _tcompra = require("./tcompra");
+var _tcompras_detalle = require("./tcompras_detalle");
 var _tcontrato = require("./tcontrato");
 var _tdepartamento = require("./tdepartamento");
 var _tdisenador = require("./tdisenador");
@@ -13,6 +15,9 @@ var _templeado_departamento = require("./templeado_departamento");
 var _tgenero = require("./tgenero");
 var _tml = require("./tml");
 var _tpaise = require("./tpaise");
+var _tproducto = require("./tproducto");
+var _tproveedor_domicilio = require("./tproveedor_domicilio");
+var _tproveedore = require("./tproveedore");
 var _tpuesto = require("./tpuesto");
 var _usuario = require("./usuario");
 
@@ -23,6 +28,8 @@ function initModels(sequelize) {
   var tcodestado = _tcodestado(sequelize, DataTypes);
   var tcodmunicipio = _tcodmunicipio(sequelize, DataTypes);
   var tcodpostal = _tcodpostal(sequelize, DataTypes);
+  var tcompra = _tcompra(sequelize, DataTypes);
+  var tcompras_detalle = _tcompras_detalle(sequelize, DataTypes);
   var tcontrato = _tcontrato(sequelize, DataTypes);
   var tdepartamento = _tdepartamento(sequelize, DataTypes);
   var tdisenador = _tdisenador(sequelize, DataTypes);
@@ -31,6 +38,9 @@ function initModels(sequelize) {
   var tgenero = _tgenero(sequelize, DataTypes);
   var tml = _tml(sequelize, DataTypes);
   var tpaise = _tpaise(sequelize, DataTypes);
+  var tproducto = _tproducto(sequelize, DataTypes);
+  var tproveedor_domicilio = _tproveedor_domicilio(sequelize, DataTypes);
+  var tproveedore = _tproveedore(sequelize, DataTypes);
   var tpuesto = _tpuesto(sequelize, DataTypes);
   var usuario = _usuario(sequelize, DataTypes);
 
@@ -40,7 +50,7 @@ function initModels(sequelize) {
   empleado.hasMany(templeado_departamento, { as: "templeado_departamentos", foreignKey: "empleado_id"});
   usuario.belongsTo(empleado, { as: "empleado", foreignKey: "empleado_id"});
   empleado.hasMany(usuario, { as: "usuarios", foreignKey: "empleado_id"});
-  submodulo.belongsTo(modulo, { as: "modulo_modulo", foreignKey: "modulo"});
+  submodulo.belongsTo(modulo, { as: "parentModulo", foreignKey: "modulo"});
   modulo.hasMany(submodulo, { as: "submodulos", foreignKey: "modulo"});
   tcodmunicipio.belongsTo(tcodestado, { as: "tcodestados", foreignKey: "estado_id"});
   tcodestado.hasMany(tcodmunicipio, { as: "tcodmunicipios", foreignKey: "estado_id"});
@@ -60,6 +70,8 @@ function initModels(sequelize) {
     tcodestado,
     tcodmunicipio,
     tcodpostal,
+    tcompra,
+    tcompras_detalle,
     tcontrato,
     tdepartamento,
     tdisenador,
@@ -68,8 +80,11 @@ function initModels(sequelize) {
     tgenero,
     tml,
     tpaise,
+    tproducto,
+    tproveedor_domicilio,
+    tproveedore,
     tpuesto,
-    usuario,
+    usuario
   };
 }
 module.exports = initModels;

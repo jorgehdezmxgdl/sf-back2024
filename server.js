@@ -723,6 +723,15 @@ app.get("/disenador2", async (req, res) => {
   res.status(200).send(data);
 });
 
+app.get("/productos", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tproducto.findAll({
+    attributes: ["id", "nombre", "presentacion","categoria"],
+    order: [["nombre", "ASC"]],
+  });
+  res.status(200).send(data);
+});
+
 app.get("/ml", async (req, res) => {
   const models = initModels(sequelize);
   const data = await models.tml.findAll({
