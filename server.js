@@ -405,6 +405,17 @@ app.post("/v1/proveedores", async (req, res) => {
     };
 });
 
+
+app.get("/modulos", async (req, res) => {
+  const models = initModels(sequelize);
+  await models.modulo
+    .findAll({ where: { activo: true }, order: [["id", "DESC"]] })
+    .then((result) => {
+      res.status(200).send(result);
+    });
+});
+
+
 app.post("/modulos", async (req, res) => {
   const data = req.body;
   const { nombre, activo } = data;
