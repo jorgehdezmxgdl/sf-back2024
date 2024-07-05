@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       defaultValue: 0,
       primaryKey: true,
-      comment: "Identificador único"
+      comment: "Identificador Ãºnico"
     },
     municipio_id: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
     cp: {
       type: DataTypes.MEDIUMINT,
       allowNull: false,
-      comment: "Código postal"
+      comment: "CÃ³digo postal"
     },
     colonia: {
       type: DataTypes.STRING(150),

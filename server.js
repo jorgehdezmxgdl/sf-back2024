@@ -736,7 +736,7 @@ app.get("/disenador2", async (req, res) => {
 app.get("/productos", async (req, res) => {
   const models = initModels(sequelize);
   const data = await models.tproducto.findAll({
-    attributes: ["id", "nombre", "presentacion","categoria"],
+    attributes: ["id", "sku", "nombre", "presentacion","tipo","presentacion"],
     order: [["nombre", "ASC"]],
   });
   res.status(200).send(data);
@@ -746,9 +746,97 @@ app.get("/ml", async (req, res) => {
   const models = initModels(sequelize);
   const data = await models.tml.findAll({
     attributes: ["id", "nombre"],
-    order: [["nombre", "ASC"]],
   });
   res.status(200).send(data);
+});
+
+app.get("/v1/consultagral/disenadorperfume", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tgenero.findAll({
+    attributes: ["id", "nombre"],
+    order: [["nombre", "ASC"]],
+    where: {
+      active: true,
+    },
+  });
+  res.status(200).send(data);
+});
+
+app.get("/v1/consultagral/presentacion", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tpresentacione.findAll({
+    attributes: ["id", "nombre"],
+    order: [["nombre", "ASC"]],
+    where: {
+      active: true,
+    },
+  });
+  res.status(200).send(data);
+});
+
+app.get("/v1/consultagral/tipo", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.ttipo.findAll({
+    attributes: ["id", "nombre"],
+    order: [["nombre", "ASC"]],
+    where: {
+      active: true,
+    },
+  });
+  res.status(200).send(data);
+});
+
+app.get("/v1/consultagral/almacen", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.talmacene.findAll({
+    attributes: ["id", "nombre"],
+    order: [["nombre", "ASC"]],
+    where: {
+      active: true,
+    },
+  });
+  res.status(200).send(data);
+});
+
+
+app.get("/v1/consultagral/ubicacion", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tubicacione.findAll({
+    attributes: ["id", "nombre"],
+    order: [["nombre", "ASC"]],
+    where: {
+      active: true,
+    },
+  });
+  res.status(200).send(data);
+});
+
+
+app.post("/v1/compras/catalogo", async (req, res) => {
+  const data = req.body;
+  const toUpperCase = (str) => str.toUpperCase();
+  const models = initModels(sequelize);
+  try {
+    const newEmp = await models.tproducto.create({
+       data,
+       nombre: toUpperCase(data.nombre),
+    });
+    if (newEmp) {
+      const id = newEmp.id;
+      res.status(200).send({ mensaje: "Ok" });
+    } else {
+      console.log("no lo hizo!!!!");
+    }
+  } catch (error) {
+    if (error.name === "SequelizeUniqueConstraintError") {
+      res.status(500).send({
+        mensaje:
+          "Error de CURP/RFC/Correo electrónico/Usuario ya existente....",
+      });
+    } else {
+      res.status(500).send({ mensaje: error.message });
+    }
+  }
 });
 
 app.get("/v1/recomendacion", async (req, res) => {

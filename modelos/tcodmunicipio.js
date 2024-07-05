@@ -5,7 +5,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       primaryKey: true,
-      comment: "Referencia única"
+      comment: "Referencia Ãºnica"
     },
     estado_id: {
       type: DataTypes.INTEGER.UNSIGNED,

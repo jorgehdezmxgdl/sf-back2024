@@ -1,9 +1,9 @@
 // sequelize-auto -h 127.0.0.1 -x -d safav3 -u root -o modelos -cm p --sg 
 const { Sequelize } = require('sequelize');
 
-const sequelize  = new Sequelize('safav3', 'root', '12345', {
+const sequelize = new Sequelize('safav3', 'root', '12345', {
   host: '127.0.0.1',
-  dialect: 'mysql',  
+  dialect: 'mysql',
   define: {
     timestamps: true,
   },
@@ -11,7 +11,15 @@ const sequelize  = new Sequelize('safav3', 'root', '12345', {
     max: 50,
     min: 5,
     idle: 10000
+  },
+  dialectOptions: {
+    charset: 'utf8mb4',
+    collate: 'utf8mb4_spanish_ci'
+  },
+  define: {
+    charset: 'utf8mb4',
+    collate: 'utf8mb4_spanish_ci'
   }
 });
 
-module.exports = {sequelize}
+module.exports = { sequelize }

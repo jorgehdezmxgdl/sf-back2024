@@ -26,6 +26,11 @@ module.exports = function(sequelize, DataTypes) {
     total: {
       type: DataTypes.FLOAT,
       allowNull: true
+    },
+    completo: {
+      type: DataTypes.TINYINT,
+      allowNull: true,
+      defaultValue: 1
     }
   }, {
     sequelize,
