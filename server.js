@@ -814,15 +814,17 @@ app.get("/v1/consultagral/ubicacion", async (req, res) => {
 
 app.post("/v1/compras/catalogo", async (req, res) => {
   const data = req.body;
-  const toUpperCase = (str) => str.toUpperCase();
+  console.log(data);
   const models = initModels(sequelize);
   try {
     const newEmp = await models.tproducto.create({
-       data,
-       nombre: toUpperCase(data.nombre),
+       data
     });
     if (newEmp) {
       const id = newEmp.id;
+      await models.tproducto.update({
+        sku: id,
+      },{ where: { id: id } });
       res.status(200).send({ mensaje: "Ok" });
     } else {
       console.log("no lo hizo!!!!");
@@ -831,7 +833,7 @@ app.post("/v1/compras/catalogo", async (req, res) => {
     if (error.name === "SequelizeUniqueConstraintError") {
       res.status(500).send({
         mensaje:
-          "Error de CURP/RFC/Correo electrónico/Usuario ya existente....",
+          "El nombre del producto ya existe....",
       });
     } else {
       res.status(500).send({ mensaje: error.message });
