@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const initModels = require("./modelos/init-models");
 const MailSender = require("./autentificacion/SendEmail");
-const { Op, col } = require("sequelize");
+const { Op, col, Sequelize } = require("sequelize");
 
 const app = express();
 app.use(cors());
@@ -666,7 +666,7 @@ app.post("/cp-plus", (req, res) => {
           as: "tcodmunicipios",
           attributes: ["id", "municipio"],
           where: {
-            estado_id: { [Op.col]: "tcodpostal.estado_id" }, // Comparar campo de otra tabla
+            estado_id: { [Op.col]: "tcodpostal.estado_id" }, 
           },
         },
         {
@@ -725,8 +725,8 @@ app.get("/disenador2", async (req, res) => {
   const models = initModels(sequelize);
   const data = await models.tdisenador.findAll({
     attributes: [
-      ["id", "value"], // Asignar alias a "id"
-      ["nombre", "label"] // Asignar alias a "nombre"
+      ["id", "value"], 
+      ["nombre", "label"] 
     ],
     order: [["nombre", "ASC"]],
   });
@@ -809,6 +809,41 @@ app.get("/v1/consultagral/ubicacion", async (req, res) => {
     },
   });
   res.status(200).send(data);
+});
+
+app.get("/v1/compras/catalogo", async (req, res) => {
+  const models = initModels(sequelize);
+  const sql = `
+    SELECT
+      t.id AS id,
+      t.sku AS sku,
+      t.barcode AS barcode,
+      t.nombre AS nombre,
+      td.nombre AS disenador,
+      tg.nombre AS genero,
+      tpr.nombre AS presentacion,
+      tm.nombre AS ml,
+      tp.nombre AS pais,
+      ta.nombre AS almacen,
+      tu.nombre AS ubicacion,
+      t.minimo AS minimo,
+      t.maximo AS maximo
+    FROM tproductos t
+      inner join tdisenador td on t.disenador = td.id
+      inner join tml tm on t.ml = tm.id
+      inner join tpaises tp on t.pais = tp.id
+      inner join tpresentaciones tpr on t.presentacion = tpr.id
+      inner join talmacenes ta on t.almacen = ta.id
+      inner join tubicaciones tu on t.ubicacion = tu.id
+      inner join tgeneros tg on t.genero = tg.id`;
+  try {
+    const result = await sequelize.query(sql, {
+      type: Sequelize.QueryTypes.SELECT
+    });
+    res.status(200).send(result);
+  } catch (error) {
+    console.error('Error al ejecutar la consulta:', error);
+  }
 });
 
 
