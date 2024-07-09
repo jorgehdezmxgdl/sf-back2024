@@ -818,7 +818,27 @@ app.post("/v1/compras/catalogo", async (req, res) => {
   const models = initModels(sequelize);
   try {
     const newEmp = await models.tproducto.create({
-       data
+      sku: data.sku,
+      nombre: data.nombre,
+      disenador: data.disenador,
+      barcode: data.barcode,
+      alto: data.alto,
+      ancho: data.ancho,
+      largo: data.largo,
+      volumen: data.volumen,
+      peso: data.peso,
+      genero: data.genero,
+      tipo: data.tipo,
+      presentacion: data.presentacion,
+      ml: data.ml,
+      pais: data.pais,
+      almacen: data.almacen,
+      ubicacion: data.ubicacion,
+      minimo: data.minimo,
+      maximo: data.maximo,
+      notascorazon: data.notascorazon,
+      notasfondo: data.notasfondo,
+      notassalida: data.notassalida
     });
     if (newEmp) {
       const id = newEmp.id;
