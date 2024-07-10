@@ -33,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     colonia: {
       type: DataTypes.STRING(150),
-      allowNull: false,
+      allowNull: true,
       comment: "Colonia"
     }
   }, {

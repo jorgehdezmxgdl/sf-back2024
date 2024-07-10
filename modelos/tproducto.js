@@ -17,6 +17,10 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       unique: "nombre_UNIQUE"
     },
+    barcode: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
     disenador: {
       type: DataTypes.INTEGER,
       allowNull: true

@@ -896,6 +896,38 @@ app.post("/v1/compras/catalogo", async (req, res) => {
   }
 });
 
+
+app.get("/v1/compras/notasolfativas", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tcatalogonota.findAll({
+    attributes: ["id", "nombre"],
+    order: [
+      [sequelize.col("notum.nombre"), "ASC"],
+      ["nombre", "ASC"],
+    ],
+    where: {
+      activo: true,
+    },
+    include: [
+      {
+        model: models.tnota,
+        as: "notum",
+        attributes: ["nombre"],
+        where: {
+          activo: true,
+        },
+      },
+    ],
+  });
+  const formattedData = data.map(item => ({
+    id: item.id,
+    nombre: item.nombre,
+    categoria: item.notum.nombre
+  }));
+  res.status(200).send(formattedData);
+});
+
+
 app.get("/v1/recomendacion", async (req, res) => {
   //await sequelize.query('CALL elimina_compra()');
   //await sequelize.query('CALL crea_proveedor(400)');

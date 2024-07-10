@@ -19,7 +19,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     municipio: {
       type: DataTypes.STRING(150),
-      allowNull: false,
+      allowNull: true,
       comment: "Nombre del municipio"
     }
   }, {

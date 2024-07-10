@@ -3,6 +3,7 @@ var _empleado = require("./empleado");
 var _modulo = require("./modulo");
 var _submodulo = require("./submodulo");
 var _talmacene = require("./talmacene");
+var _tcatalogonota = require("./tcatalogonota");
 var _tcodestado = require("./tcodestado");
 var _tcodmunicipio = require("./tcodmunicipio");
 var _tcodpostal = require("./tcodpostal");
@@ -15,8 +16,11 @@ var _tdepartamento = require("./tdepartamento");
 var _tdisenador = require("./tdisenador");
 var _tdomicilio = require("./tdomicilio");
 var _templeado_departamento = require("./templeado_departamento");
+var _tfaltante = require("./tfaltante");
 var _tgenero = require("./tgenero");
+var _timagene = require("./timagene");
 var _tml = require("./tml");
+var _tnota = require("./tnota");
 var _tpaise = require("./tpaise");
 var _tpresentacione = require("./tpresentacione");
 var _tproducto = require("./tproducto");
@@ -33,6 +37,7 @@ function initModels(sequelize) {
   var modulo = _modulo(sequelize, DataTypes);
   var submodulo = _submodulo(sequelize, DataTypes);
   var talmacene = _talmacene(sequelize, DataTypes);
+  var tcatalogonota = _tcatalogonota(sequelize, DataTypes);
   var tcodestado = _tcodestado(sequelize, DataTypes);
   var tcodmunicipio = _tcodmunicipio(sequelize, DataTypes);
   var tcodpostal = _tcodpostal(sequelize, DataTypes);
@@ -45,8 +50,11 @@ function initModels(sequelize) {
   var tdisenador = _tdisenador(sequelize, DataTypes);
   var tdomicilio = _tdomicilio(sequelize, DataTypes);
   var templeado_departamento = _templeado_departamento(sequelize, DataTypes);
+  var tfaltante = _tfaltante(sequelize, DataTypes);
   var tgenero = _tgenero(sequelize, DataTypes);
+  var timagene = _timagene(sequelize, DataTypes);
   var tml = _tml(sequelize, DataTypes);
+  var tnota = _tnota(sequelize, DataTypes);
   var tpaise = _tpaise(sequelize, DataTypes);
   var tpresentacione = _tpresentacione(sequelize, DataTypes);
   var tproducto = _tproducto(sequelize, DataTypes);
@@ -74,6 +82,8 @@ function initModels(sequelize) {
   tcodmunicipio.hasMany(tcodpostal, { as: "tcodpostals", foreignKey: "municipio_id"});
   templeado_departamento.belongsTo(tdepartamento, { as: "departamento", foreignKey: "departamento_id"});
   tdepartamento.hasMany(templeado_departamento, { as: "templeado_departamentos", foreignKey: "departamento_id"});
+  tcatalogonota.belongsTo(tnota, { as: "notum", foreignKey: "nota_id"});
+  tnota.hasMany(tcatalogonota, { as: "tcatalogonota", foreignKey: "nota_id"});
   templeado_departamento.belongsTo(tpuesto, { as: "puesto", foreignKey: "puesto_id"});
   tpuesto.hasMany(templeado_departamento, { as: "templeado_departamentos", foreignKey: "puesto_id"});
 
@@ -82,6 +92,7 @@ function initModels(sequelize) {
     modulo,
     submodulo,
     talmacene,
+    tcatalogonota,
     tcodestado,
     tcodmunicipio,
     tcodpostal,
@@ -94,8 +105,11 @@ function initModels(sequelize) {
     tdisenador,
     tdomicilio,
     templeado_departamento,
+    tfaltante,
     tgenero,
+    timagene,
     tml,
+    tnota,
     tpaise,
     tpresentacione,
     tproducto,
