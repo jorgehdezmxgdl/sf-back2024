@@ -817,25 +817,23 @@ app.get("/v1/compras/catalogo", async (req, res) => {
     SELECT
       t.id AS id,
       t.sku AS sku,
-      t.barcode AS barcode,
       t.nombre AS nombre,
       td.nombre AS disenador,
       tg.nombre AS genero,
       tpr.nombre AS presentacion,
       tm.nombre AS ml,
       tp.nombre AS pais,
-      ta.nombre AS almacen,
-      tu.nombre AS ubicacion,
       t.minimo AS minimo,
-      t.maximo AS maximo
+      t.maximo AS maximo,
+      tc.nombre AS estatus,
+      t.activo AS activo
     FROM tproductos t
       inner join tdisenador td on t.disenador = td.id
-      inner join tml tm on t.ml = tm.id
-      inner join tpaises tp on t.pais = tp.id
-      inner join tpresentaciones tpr on t.presentacion = tpr.id
-      inner join talmacenes ta on t.almacen = ta.id
-      inner join tubicaciones tu on t.ubicacion = tu.id
-      inner join tgeneros tg on t.genero = tg.id`;
+      inner join tml tm on t.ml_id = tm.id
+      inner join tpaises tp on t.pais_id = tp.id
+      inner join tconstantes tc on t.constante_id = tc.id
+      inner join tpresentaciones tpr on t.presentacion_id = tpr.id
+      inner join tgeneros tg on t.genero_id = tg.id`;
   try {
     const result = await sequelize.query(sql, {
       type: Sequelize.QueryTypes.SELECT

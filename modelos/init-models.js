@@ -3,6 +3,7 @@ var _empleado = require("./empleado");
 var _modulo = require("./modulo");
 var _submodulo = require("./submodulo");
 var _talmacene = require("./talmacene");
+var _talmacenubicacione = require("./talmacenubicacione");
 var _tcatalogonota = require("./tcatalogonota");
 var _tcodestado = require("./tcodestado");
 var _tcodmunicipio = require("./tcodmunicipio");
@@ -11,12 +12,14 @@ var _tcompra = require("./tcompra");
 var _tcompras_detalle = require("./tcompras_detalle");
 var _tcompras_embarque = require("./tcompras_embarque");
 var _tcompras_recomendacion = require("./tcompras_recomendacion");
-var _tcontrato = require("./tcontrato");
+var _tconstante = require("./tconstante");
+var _tcontenedore = require("./tcontenedore");
 var _tdepartamento = require("./tdepartamento");
 var _tdisenador = require("./tdisenador");
 var _tdomicilio = require("./tdomicilio");
 var _templeado_departamento = require("./templeado_departamento");
 var _tfaltante = require("./tfaltante");
+var _tformapago = require("./tformapago");
 var _tgenero = require("./tgenero");
 var _timagene = require("./timagene");
 var _tml = require("./tml");
@@ -28,6 +31,7 @@ var _tproductos_imagen = require("./tproductos_imagen");
 var _tproveedor_domicilio = require("./tproveedor_domicilio");
 var _tproveedore = require("./tproveedore");
 var _tpuesto = require("./tpuesto");
+var _tsatimpuesto = require("./tsatimpuesto");
 var _ttipo = require("./ttipo");
 var _tubicacione = require("./tubicacione");
 var _usuario = require("./usuario");
@@ -37,6 +41,7 @@ function initModels(sequelize) {
   var modulo = _modulo(sequelize, DataTypes);
   var submodulo = _submodulo(sequelize, DataTypes);
   var talmacene = _talmacene(sequelize, DataTypes);
+  var talmacenubicacione = _talmacenubicacione(sequelize, DataTypes);
   var tcatalogonota = _tcatalogonota(sequelize, DataTypes);
   var tcodestado = _tcodestado(sequelize, DataTypes);
   var tcodmunicipio = _tcodmunicipio(sequelize, DataTypes);
@@ -45,12 +50,14 @@ function initModels(sequelize) {
   var tcompras_detalle = _tcompras_detalle(sequelize, DataTypes);
   var tcompras_embarque = _tcompras_embarque(sequelize, DataTypes);
   var tcompras_recomendacion = _tcompras_recomendacion(sequelize, DataTypes);
-  var tcontrato = _tcontrato(sequelize, DataTypes);
+  var tconstante = _tconstante(sequelize, DataTypes);
+  var tcontenedore = _tcontenedore(sequelize, DataTypes);
   var tdepartamento = _tdepartamento(sequelize, DataTypes);
   var tdisenador = _tdisenador(sequelize, DataTypes);
   var tdomicilio = _tdomicilio(sequelize, DataTypes);
   var templeado_departamento = _templeado_departamento(sequelize, DataTypes);
   var tfaltante = _tfaltante(sequelize, DataTypes);
+  var tformapago = _tformapago(sequelize, DataTypes);
   var tgenero = _tgenero(sequelize, DataTypes);
   var timagene = _timagene(sequelize, DataTypes);
   var tml = _tml(sequelize, DataTypes);
@@ -62,6 +69,7 @@ function initModels(sequelize) {
   var tproveedor_domicilio = _tproveedor_domicilio(sequelize, DataTypes);
   var tproveedore = _tproveedore(sequelize, DataTypes);
   var tpuesto = _tpuesto(sequelize, DataTypes);
+  var tsatimpuesto = _tsatimpuesto(sequelize, DataTypes);
   var ttipo = _ttipo(sequelize, DataTypes);
   var tubicacione = _tubicacione(sequelize, DataTypes);
   var usuario = _usuario(sequelize, DataTypes);
@@ -92,6 +100,7 @@ function initModels(sequelize) {
     modulo,
     submodulo,
     talmacene,
+    talmacenubicacione,
     tcatalogonota,
     tcodestado,
     tcodmunicipio,
@@ -100,12 +109,14 @@ function initModels(sequelize) {
     tcompras_detalle,
     tcompras_embarque,
     tcompras_recomendacion,
-    tcontrato,
+    tconstante,
+    tcontenedore,
     tdepartamento,
     tdisenador,
     tdomicilio,
     templeado_departamento,
     tfaltante,
+    tformapago,
     tgenero,
     timagene,
     tml,
@@ -117,6 +128,7 @@ function initModels(sequelize) {
     tproveedor_domicilio,
     tproveedore,
     tpuesto,
+    tsatimpuesto,
     ttipo,
     tubicacione,
     usuario,

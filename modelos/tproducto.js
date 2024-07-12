@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     sku: {
-      type: DataTypes.STRING(200),
+      type: DataTypes.STRING(100),
       allowNull: true,
       unique: "sku_UNIQUE"
     },
@@ -16,10 +16,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(120),
       allowNull: true,
       unique: "nombre_UNIQUE"
-    },
-    barcode: {
-      type: DataTypes.STRING(100),
-      allowNull: true
     },
     disenador: {
       type: DataTypes.INTEGER,
@@ -45,32 +41,28 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.FLOAT,
       allowNull: true
     },
-    genero: {
+    mercancia_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    tipo: {
+    genero_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    presentacion: {
+    tipo_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    ml: {
+    presentacion_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    pais: {
+    ml_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    almacen: {
+    pais_id: {
       type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    ubicacion: {
-      type: DataTypes.STRING(45),
       allowNull: true
     },
     minimo: {
@@ -81,17 +73,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    notascorazon: {
-      type: DataTypes.STRING(255),
+    constante_id: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
-    notasfondo: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    notassalida: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+    activo: {
+      type: DataTypes.TINYINT,
+      allowNull: true,
+      defaultValue: 1
     }
   }, {
     sequelize,
