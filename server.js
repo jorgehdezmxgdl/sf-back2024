@@ -431,7 +431,7 @@ app.post("/modulos", async (req, res) => {
       if (error.name === "SequelizeUniqueConstraintError") {
         console.error("Error de entrada duplicada:", error.message);
         res.status(500).send({
-          mensaje: "El nombe del módulo ya existe...",
+          mensaje: "El nombre del módulo ya existe...",
         });
       } else {
         res.status(500).send({ mensaje: error.message });
@@ -599,7 +599,7 @@ app.post("/send-email", (req, res) => {
           from: '"Jorge Hernandez" <jorgehdezmxgdl@gmail.com>',
           to: correo,
           subject: "Sólo Fragancias: Recuperación de contraseña",
-          text: "Recueperación de contraseña",
+          text: "Recuperación de contraseña",
           html:
             `<p>Hola ` +
             completo.toUpperCase() +
@@ -924,6 +924,69 @@ app.get("/v1/compras/notasolfativas", async (req, res) => {
   }));
   res.status(200).send(formattedData);
 });
+
+app.get("/v1/compras/bancos", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tbanco.findAll({
+    attributes: ["id", "nombre_corto"],
+    order: [
+      ["nombre_corto", "ASC"],
+    ],
+    where: {
+      activo: true,
+    },
+  });
+  res.status(200).send(data);
+});
+
+app.get("/v1/compras/licitaciones", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tlicitacione.findAll({
+    order: [
+      ["id", "DESC"],
+    ],
+    where: {
+      activo: true,
+    },
+  });
+  res.status(200).send(data);
+});
+
+app.get("/v1/compras/productos", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.tproducto.findAll({
+    attributes: [
+      "id",
+      [Sequelize.fn("concat", Sequelize.col("sku"), " - ", Sequelize.col("nombre")), "sku"]
+    ],
+    order: [
+      ["id", "DESC"],
+    ],
+    where: {
+      activo: true,
+    },
+  });
+  res.status(200).send(data);
+});
+
+
+app.get("/v1/compras/productos", async (req, res) => {
+  const models = initModels(sequelize);
+  const data = await models.talmacene.findAll({
+    attributes: [
+      "id",
+      [Sequelize.fn("concat", Sequelize.col("sku"), " - ", Sequelize.col("nombre")), "sku"]
+    ],
+    order: [
+      ["id", "DESC"],
+    ],
+    where: {
+      activo: true,
+    },
+  });
+  res.status(200).send(data);
+});
+
 
 
 app.get("/v1/recomendacion", async (req, res) => {

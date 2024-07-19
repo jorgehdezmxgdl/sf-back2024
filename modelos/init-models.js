@@ -4,6 +4,7 @@ var _modulo = require("./modulo");
 var _submodulo = require("./submodulo");
 var _talmacene = require("./talmacene");
 var _talmacenubicacione = require("./talmacenubicacione");
+var _tbanco = require("./tbanco");
 var _tcatalogonota = require("./tcatalogonota");
 var _tcodestado = require("./tcodestado");
 var _tcodmunicipio = require("./tcodmunicipio");
@@ -22,6 +23,7 @@ var _tfaltante = require("./tfaltante");
 var _tformapago = require("./tformapago");
 var _tgenero = require("./tgenero");
 var _timagene = require("./timagene");
+var _tlicitacione = require("./tlicitacione");
 var _tml = require("./tml");
 var _tnota = require("./tnota");
 var _tpaise = require("./tpaise");
@@ -42,6 +44,7 @@ function initModels(sequelize) {
   var submodulo = _submodulo(sequelize, DataTypes);
   var talmacene = _talmacene(sequelize, DataTypes);
   var talmacenubicacione = _talmacenubicacione(sequelize, DataTypes);
+  var tbanco = _tbanco(sequelize, DataTypes);
   var tcatalogonota = _tcatalogonota(sequelize, DataTypes);
   var tcodestado = _tcodestado(sequelize, DataTypes);
   var tcodmunicipio = _tcodmunicipio(sequelize, DataTypes);
@@ -60,6 +63,7 @@ function initModels(sequelize) {
   var tformapago = _tformapago(sequelize, DataTypes);
   var tgenero = _tgenero(sequelize, DataTypes);
   var timagene = _timagene(sequelize, DataTypes);
+  var tlicitacione = _tlicitacione(sequelize, DataTypes);
   var tml = _tml(sequelize, DataTypes);
   var tnota = _tnota(sequelize, DataTypes);
   var tpaise = _tpaise(sequelize, DataTypes);
@@ -101,6 +105,7 @@ function initModels(sequelize) {
     submodulo,
     talmacene,
     talmacenubicacione,
+    tbanco,
     tcatalogonota,
     tcodestado,
     tcodmunicipio,
@@ -119,6 +124,7 @@ function initModels(sequelize) {
     tformapago,
     tgenero,
     timagene,
+    tlicitacione,
     tml,
     tnota,
     tpaise,
